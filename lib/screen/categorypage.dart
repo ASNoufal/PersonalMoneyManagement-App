@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pmm/db/categorydb.dart';
+import 'package:pmm/model/datamodel.dart';
+import 'package:pmm/screen/expanceCategorylist.dart';
+import 'package:pmm/screen/incomeCategorylist.dart';
 
 class CategoryPageScreen extends StatefulWidget {
   const CategoryPageScreen({super.key});
@@ -10,6 +14,12 @@ class CategoryPageScreen extends StatefulWidget {
 class _CategoryPageScreenState extends State<CategoryPageScreen>
     with TickerProviderStateMixin {
   late TabController tabController;
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    Category().getcategory().then((value) => print(value));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,7 @@ class _CategoryPageScreenState extends State<CategoryPageScreen>
         TabBar(
             unselectedLabelColor: Colors.grey,
             labelColor: Colors.blue,
-            controller: tabController = TabController(length: 2, vsync: this),
+            controller: tabController,
             tabs: const [
               Tab(
                 iconMargin: EdgeInsets.only(bottom: 10),
@@ -32,7 +42,7 @@ class _CategoryPageScreenState extends State<CategoryPageScreen>
         Expanded(
             child: TabBarView(
                 controller: tabController,
-                children: [Text("hll"), Text('gkk')]))
+                children: const [IncomeCategoryList(), ExpanceCategoryList()]))
       ],
     );
   }
