@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:pmm/db/categorydb.dart';
 import 'package:pmm/model/datamodel.dart';
 
 ValueNotifier<CategoryType> currentvalue = ValueNotifier(CategoryType.income);
+TextEditingController textcontroller = TextEditingController();
 
-void categoryfloatingfunction(BuildContext context) {
+Future<void> categoryfloatingfunction(BuildContext context) async {
   showDialog(
       context: context,
       builder: (ctx) {
         return SimpleDialog(
           title: const Text("Add Category"),
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextField(
-                  decoration: InputDecoration(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                  controller: textcontroller,
+                  decoration: const InputDecoration(
                       hintText: "Add", border: OutlineInputBorder())),
             ),
             const Padding(
@@ -27,7 +30,21 @@ void categoryfloatingfunction(BuildContext context) {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: () {}, child: const Text("ok")),
+              child: ElevatedButton(
+                  onPressed: () {
+                    final text = textcontroller.text;
+                    if (text.isEmpty) {
+                      return;
+                    }
+                    final category = CategoryModel(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: text,
+                        type: currentvalue.value);
+                    Category().insertcategory(category);
+                    textcontroller.clear();
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text("ok")),
             )
           ],
         );

@@ -17,7 +17,7 @@ class _CategoryPageScreenState extends State<CategoryPageScreen>
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    Category().getcategory().then((value) => print(value));
+    Category().refreshui();
     super.initState();
   }
 

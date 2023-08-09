@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pmm/add%20transaction/screen_add_transaction.dart';
 import 'package:pmm/db/categorydb.dart';
 import 'package:pmm/floatingButton/categoryfuncyion.dart';
 import 'package:pmm/model/datamodel.dart';
@@ -22,6 +23,10 @@ class HomePage extends StatelessWidget {
             child: IconButton(
                 onPressed: () {
                   if (selectedindex.value == 0) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const ScreenAddTransaction();
+                    }));
                     print("income");
                   } else {
                     categoryfloatingfunction(context);
@@ -33,7 +38,7 @@ class HomePage extends StatelessWidget {
                     // print("expance");
                   }
                 },
-                icon: Icon(Icons.add))),
+                icon: const Icon(Icons.add))),
         bottomNavigationBar: const BottomNavigationWidget(),
         body: ValueListenableBuilder(
             valueListenable: selectedindex,
