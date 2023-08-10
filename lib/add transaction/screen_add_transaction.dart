@@ -11,7 +11,7 @@ class ScreenAddTransaction extends StatefulWidget {
 
 class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
   String? dropdownvalue;
-  CategoryType? incometype;
+  CategoryType? incometype = CategoryType.income;
   DateTime? selecteddate;
   DateTime? selecteddateper;
 
@@ -71,6 +71,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                       onChanged: (value) {
                         setState(() {
                           incometype = value;
+                          dropdownvalue = null;
                         });
                       }),
                   const Text("income")
@@ -84,6 +85,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                       onChanged: (value) {
                         setState(() {
                           incometype = value;
+                          dropdownvalue = null;
                         });
                       }),
                   const Text("Expance")
@@ -92,20 +94,27 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
             ],
           ),
           DropdownButton(
-            style: const TextStyle(color: Colors.grey),
-            value: dropdownvalue,
-            onChanged: (value) {
-              setState(() {
-                dropdownvalue = value;
-              });
-            },
-            items: Category().incomecategory.value.map((e) {
-              return DropdownMenuItem(
-                value: e.id,
-                child: Text(e.name),
-              );
-            }).toList(),
-          )
+              hint: const Text("Select category"),
+              style: const TextStyle(color: Colors.grey),
+              value: dropdownvalue,
+              onChanged: (value) {
+                setState(() {
+                  dropdownvalue = value;
+                });
+              },
+              items: incometype == CategoryType.income
+                  ? Category().incomecategory.value.map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Text(e.name),
+                      );
+                    }).toList()
+                  : Category()
+                      .expenxecategory
+                      .value
+                      .map((e) =>
+                          DropdownMenuItem(value: e.id, child: Text(e.name)))
+                      .toList())
         ],
       )),
     );
