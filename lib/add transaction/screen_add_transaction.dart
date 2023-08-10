@@ -123,8 +123,13 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                   : Category()
                       .expenxecategory
                       .value
-                      .map((e) =>
-                          DropdownMenuItem(value: e.id, child: Text(e.name)))
+                      .map((e) => DropdownMenuItem(
+                            value: e.id,
+                            child: Text(e.name),
+                            onTap: () {
+                              categoryModeltype = e;
+                            },
+                          ))
                       .toList()),
           ElevatedButton(
               onPressed: () {
@@ -155,7 +160,8 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
         type: incometype!,
         category: categoryModeltype!);
     TransactionDB().addtransaction(transactionModeldata);
+    TransactionDB().refreshtransactionui();
 
-    Navigator.of(context).pop(transactionModeldata);
+    Navigator.of(context).pop();
   }
 }
