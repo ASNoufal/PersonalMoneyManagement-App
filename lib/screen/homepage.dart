@@ -25,10 +25,20 @@ class HomePageScreen extends StatelessWidget {
                 return ListTile(
                   leading: CircleAvatar(
                     radius: 42,
-                    child: Text(date(newvalue[index].date)),
                     backgroundColor: newvalue[index].type == CategoryType.income
                         ? Colors.red
                         : Colors.green,
+                    child: Text(date(newvalue[index].date)),
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      TransactionDB().deleteitems(newvalue[index].id!);
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 30,
+                    ),
                   ),
                   title: Text(newvalue[index].purpose),
                   subtitle: Text(newvalue[index].amount.toString()),

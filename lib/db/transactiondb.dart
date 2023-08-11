@@ -7,6 +7,7 @@ const boxname = 'tranasactionBox';
 abstract class Transaction {
   Future<void> addtransaction(TransactionModel model);
   Future<List<TransactionModel>> gettransaction();
+  Future<void> deleteitems(String id);
 }
 
 class TransactionDB implements Transaction {
@@ -27,6 +28,7 @@ class TransactionDB implements Transaction {
 
   Future<void> refreshtransactionui() async {
     final alltransaction = await gettransaction();
+    alltransaction.sort((a, b) => b.date.compareTo(a.date));
     Transactionvaluenotifier.value.clear();
     Transactionvaluenotifier.value.addAll(alltransaction);
     Transactionvaluenotifier.notifyListeners();
@@ -36,5 +38,12 @@ class TransactionDB implements Transaction {
   Future<List<TransactionModel>> gettransaction() async {
     final transactionBox = await Hive.openBox<TransactionModel>(boxname);
     return transactionBox.values.toList();
+  }
+
+  @override
+  Future<void> deleteitems(String id) async {
+    final transactionBox = await Hive.openBox<TransactionModel>(boxname);
+    await transactionBox.delete(id);
+    refreshtransactionui();
   }
 }
