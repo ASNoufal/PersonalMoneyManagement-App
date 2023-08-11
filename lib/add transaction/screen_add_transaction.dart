@@ -65,9 +65,8 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                 showdate(context);
               },
               icon: const Icon(Icons.calendar_view_day_rounded),
-              label: Text(selecteddate == null
-                  ? 'Pick Date'
-                  : selecteddateper!.toString())),
+              label: Text(
+                  selecteddate == null ? 'Pick Date' : date(selecteddateper!))),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -163,5 +162,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     TransactionDB().refreshtransactionui();
 
     Navigator.of(context).pop();
+  }
+
+  String date(DateTime dateTime) {
+    return "${dateTime.day}/${dateTime.month}/${dateTime.year}";
   }
 }

@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pmm/db/categorydb.dart';
 import 'package:pmm/db/transactiondb.dart';
 import 'package:pmm/model/datamodel.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
+  String date(DateTime date) {
+    var format = DateFormat.MMMd();
+    var dates = format.format(date);
+    var da = dates.split(' ');
+    return "${da.last}\n ${da.first}";
+  }
 
   @override
   Widget build(BuildContext context) {
     TransactionDB().refreshtransactionui();
+    Category().refreshui();
     return ValueListenableBuilder(
         valueListenable: TransactionDB().Transactionvaluenotifier,
         builder: (context, newvalue, _) {
           return ListView.separated(
               itemBuilder: (context, index) {
                 return ListTile(
-                  dense: true,
                   leading: CircleAvatar(
                     radius: 42,
-                    child: Text("12\ndec"),
+                    child: Text(date(newvalue[index].date)),
                     backgroundColor: newvalue[index].type == CategoryType.income
                         ? Colors.red
                         : Colors.green,
